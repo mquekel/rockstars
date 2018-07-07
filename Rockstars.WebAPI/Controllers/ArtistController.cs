@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Rockstars.DataAccess.Repositories;
 using Rockstars.Domain.Entities;
 
@@ -12,6 +13,16 @@ namespace Rockstars.WebAPI.Controllers
         public ArtistController(IRepository<Artist> artistRepository)
         {
             this._artistRepository = artistRepository;
+        }
+
+        /// <summary>
+        /// Get all artists.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IEnumerable<Artist> GetAll()
+        {
+            return this._artistRepository.GetAll();
         }
 
         /// <summary>

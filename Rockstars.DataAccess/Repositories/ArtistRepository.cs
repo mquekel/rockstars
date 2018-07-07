@@ -1,4 +1,6 @@
-﻿using Rockstars.DataAccess.DatabaseContext;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Rockstars.DataAccess.DatabaseContext;
 using Rockstars.Domain.Entities;
 
 namespace Rockstars.DataAccess.Repositories
@@ -22,6 +24,11 @@ namespace Rockstars.DataAccess.Repositories
         {
             var item = this._artistContext.Artists.Find(id);
             return item;
+        }
+
+        public IEnumerable<Artist> GetAll()
+        {
+            return this._artistContext.Artists.ToList();
         }
     }
 }
