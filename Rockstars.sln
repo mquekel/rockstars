@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rockstars.WebAPI", "Rockstars.WebAPI\Rockstars.WebAPI.csproj", "{B2A97AAE-3845-4352-A816-DEAA39C18CCE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Samples", "4. Samples", "{1CA00E40-7DA6-4D20-9945-6D60EFD6F01A}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\artists.json = Samples\artists.json
+		Samples\songs.json = Samples\songs.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Api", "1. Api", "{C3D25982-9779-4C50-A885-74752A9D2A0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{7B314AF2-5058-4C5D-BD5D-9D784F9AB304}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rockstars.Domain", "Rockstars.Domain\Rockstars.Domain.csproj", "{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data Access", "3. Data Access", "{8451FA11-C0DA-4D4C-8552-5BF7AF240402}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rockstars.DataAccess", "Rockstars.DataAccess\Rockstars.DataAccess.csproj", "{3347C93E-7274-4D05-936C-BD45432C6449}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2A97AAE-3845-4352-A816-DEAA39C18CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A97AAE-3845-4352-A816-DEAA39C18CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A97AAE-3845-4352-A816-DEAA39C18CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A97AAE-3845-4352-A816-DEAA39C18CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3347C93E-7274-4D05-936C-BD45432C6449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3347C93E-7274-4D05-936C-BD45432C6449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3347C93E-7274-4D05-936C-BD45432C6449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3347C93E-7274-4D05-936C-BD45432C6449}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2A97AAE-3845-4352-A816-DEAA39C18CCE} = {C3D25982-9779-4C50-A885-74752A9D2A0D}
+		{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80} = {7B314AF2-5058-4C5D-BD5D-9D784F9AB304}
+		{3347C93E-7274-4D05-936C-BD45432C6449} = {8451FA11-C0DA-4D4C-8552-5BF7AF240402}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00383A06-4797-48C1-AB9F-3D0C0631EDB2}
+	EndGlobalSection
+EndGlobal
