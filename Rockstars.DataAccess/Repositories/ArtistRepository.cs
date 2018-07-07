@@ -30,5 +30,13 @@ namespace Rockstars.DataAccess.Repositories
         {
             return this._artistContext.Artists.ToList();
         }
+
+        public void Update(Artist artist)
+        {
+            var item = this._artistContext.Artists.Find(artist.Id);
+            item.Name = artist.Name;
+            this._artistContext.Artists.Update(item);
+            this._artistContext.SaveChanges();
+        }
     }
 }

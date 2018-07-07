@@ -53,5 +53,12 @@ namespace Rockstars.WebAPI.Controllers
             this._artistRepository.Create(artist);
             return Accepted();
         }
+
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public void Put(long id, [FromBody]Artist artist)
+        {
+            this._artistRepository.Update(artist);
+        }
     }
 }
