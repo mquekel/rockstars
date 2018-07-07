@@ -31,6 +31,11 @@ namespace Rockstars.WebAPI.Controllers
             return Json(artist);
         }
 
+        /// <summary>
+        /// Add an artist to the database.
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Add([FromBody] Artist artist)
         {
