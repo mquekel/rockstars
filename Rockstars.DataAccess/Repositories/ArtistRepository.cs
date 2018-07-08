@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Rockstars.DataAccess.DatabaseContext;
 using Rockstars.Domain.Entities;
@@ -17,6 +18,16 @@ namespace Rockstars.DataAccess.Repositories
         public void Create(Artist entity)
         {
             this._artistContext.Artists.Add(entity);
+            this._artistContext.SaveChanges();
+        }
+
+        public void Create(IEnumerable<Artist> entities)
+        {
+            foreach (var entity in entities)
+            {
+                this._artistContext.Artists.Add(entity);
+            }
+
             this._artistContext.SaveChanges();
         }
 

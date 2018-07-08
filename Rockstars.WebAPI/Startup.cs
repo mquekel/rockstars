@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Rockstars.DataAccess.DatabaseContext;
 using Rockstars.DataAccess.Repositories;
 using Rockstars.Domain.Entities;
+using Rockstars.WebAPI.Filters;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Rockstars.WebAPI
@@ -40,6 +41,7 @@ namespace Rockstars.WebAPI
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 config.IncludeXmlComments(xmlPath);
+                config.OperationFilter<AddFileParamTypesOperationFilter>();
             });
         }
 

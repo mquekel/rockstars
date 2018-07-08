@@ -11,6 +11,12 @@ namespace Rockstars.DataAccess.Repositories
         void Create(T entity);
 
         /// <summary>
+        /// Creates multiple entities.
+        /// </summary>
+        /// <param name="entities"></param>
+        void Create(IEnumerable<T> entities); 
+
+        /// <summary>
         /// Get an entity by ID.
         /// </summary>
         /// <param name="id"></param>

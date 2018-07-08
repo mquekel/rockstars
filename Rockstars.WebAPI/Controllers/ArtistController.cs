@@ -14,7 +14,7 @@ namespace Rockstars.WebAPI.Controllers
         {
             this._artistRepository = artistRepository;
         }
-
+        
         /// <summary>
         /// Get all artists.
         /// </summary>
@@ -51,6 +51,22 @@ namespace Rockstars.WebAPI.Controllers
         public IActionResult Add([FromBody] Artist artist)
         {
             this._artistRepository.Create(artist);
+            return Accepted();
+        }
+
+        /// <summary>
+        /// Add an array of artist to the database.
+        /// </summary>
+        /// <param name="artists"></param>
+        /// <returns></returns>
+        [HttpPost("AddMultiple")]
+        public IActionResult AddMultiple([FromBody] IEnumerable<Artist> artists)
+        {
+            foreach (var artist in artists)
+            {
+                this._artistRepository.Create(artist);
+            }
+
             return Accepted();
         }
 
