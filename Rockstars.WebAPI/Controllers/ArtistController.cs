@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Rockstars.DataAccess.Exceptions;
 using Rockstars.DataAccess.Repositories;
 using Rockstars.Domain.Entities;
 using Rockstars.WebAPI.ViewModels;
@@ -75,7 +76,7 @@ namespace Rockstars.WebAPI.Controllers
             {
                 this._artistRepository.Create(artist);
             }
-            catch (Exception e)
+            catch (EntityAlreadyExistsException e)
             {
                 return BadRequest(new Error(e.Message));
             }

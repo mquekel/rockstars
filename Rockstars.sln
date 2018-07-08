@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data Access", "3. Data A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rockstars.DataAccess", "Rockstars.DataAccess\Rockstars.DataAccess.csproj", "{3347C93E-7274-4D05-936C-BD45432C6449}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rockstars.DataAccess.Tests", "Rockstars.DataAccess.Tests\Rockstars.DataAccess.Tests.csproj", "{B8056B41-F7DC-4E7F-8E83-FE62E89A5898}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3347C93E-7274-4D05-936C-BD45432C6449}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3347C93E-7274-4D05-936C-BD45432C6449}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3347C93E-7274-4D05-936C-BD45432C6449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8056B41-F7DC-4E7F-8E83-FE62E89A5898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8056B41-F7DC-4E7F-8E83-FE62E89A5898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8056B41-F7DC-4E7F-8E83-FE62E89A5898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8056B41-F7DC-4E7F-8E83-FE62E89A5898}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +53,7 @@ Global
 		{B2A97AAE-3845-4352-A816-DEAA39C18CCE} = {C3D25982-9779-4C50-A885-74752A9D2A0D}
 		{14DBEE7A-3680-4EBC-9EEE-75732CDC9A80} = {7B314AF2-5058-4C5D-BD5D-9D784F9AB304}
 		{3347C93E-7274-4D05-936C-BD45432C6449} = {8451FA11-C0DA-4D4C-8552-5BF7AF240402}
+		{B8056B41-F7DC-4E7F-8E83-FE62E89A5898} = {8451FA11-C0DA-4D4C-8552-5BF7AF240402}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00383A06-4797-48C1-AB9F-3D0C0631EDB2}

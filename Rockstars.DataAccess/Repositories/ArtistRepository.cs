@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Rockstars.DataAccess.DatabaseContext;
+using Rockstars.DataAccess.Exceptions;
 using Rockstars.Domain.Entities;
 
 namespace Rockstars.DataAccess.Repositories
@@ -17,14 +18,28 @@ namespace Rockstars.DataAccess.Repositories
 
         public void Create(Artist entity)
         {
+            if (ArtistAlreadyExists(entity))
+            {
+                throw new EntityAlreadyExistsException("The artist is already present.");
+            }
+
             this._artistContext.Artists.Add(entity);
             this._artistContext.SaveChanges();
+        }
+
+        private bool ArtistAlreadyExists(Artist entity)
+        {
+            return this.Search(artist => string.Equals(artist.Name, entity.Name, StringComparison.CurrentCultureIgnoreCase)).Any();
         }
 
         public void Create(IEnumerable<Artist> entities)
         {
             foreach (var entity in entities)
             {
+                if (this.ArtistAlreadyExists(entity))
+                {
+                    throw new EntityAlreadyExistsException($"The band with name {entity.Name} already exists.");
+                }
                 this._artistContext.Artists.Add(entity);
             }
 
