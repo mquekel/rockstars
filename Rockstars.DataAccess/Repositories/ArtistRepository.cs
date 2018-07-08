@@ -49,5 +49,11 @@ namespace Rockstars.DataAccess.Repositories
             this._artistContext.Artists.Update(item);
             this._artistContext.SaveChanges();
         }
+
+        public IEnumerable<Artist> Search(Func<Artist, bool> query)
+        {
+            var entities = this._artistContext.Artists.Where(query);
+            return entities;
+        }
     }
 }

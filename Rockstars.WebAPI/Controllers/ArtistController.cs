@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Rockstars.DataAccess.Repositories;
 using Rockstars.Domain.Entities;
+using Rockstars.WebAPI.ViewModels;
 
 namespace Rockstars.WebAPI.Controllers
 {
@@ -14,7 +17,7 @@ namespace Rockstars.WebAPI.Controllers
         {
             this._artistRepository = artistRepository;
         }
-        
+
         /// <summary>
         /// Get all artists.
         /// </summary>
@@ -23,6 +26,24 @@ namespace Rockstars.WebAPI.Controllers
         public IEnumerable<Artist> GetAll()
         {
             return this._artistRepository.GetAll();
+        }
+
+        /// <summary>
+        /// Search for an artist by name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpPost("Search")]
+        public ActionResult Search(string name)
+        {
+            var artists = this._artistRepository.Search(q => string.Equals(q.Name, name, StringComparison.OrdinalIgnoreCase));
+            var artist = artists.FirstOrDefault();
+            if (artist == null)
+            {
+                return NotFound(new Error("artist not found."));
+            }
+
+            return Json(artist);
         }
 
         /// <summary>
@@ -50,7 +71,14 @@ namespace Rockstars.WebAPI.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] Artist artist)
         {
-            this._artistRepository.Create(artist);
+            try
+            {
+                this._artistRepository.Create(artist);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new Error(e.Message));
+            }
             return Accepted();
         }
 
@@ -62,15 +90,23 @@ namespace Rockstars.WebAPI.Controllers
         [HttpPost("AddMultiple")]
         public IActionResult AddMultiple([FromBody] IEnumerable<Artist> artists)
         {
-            foreach (var artist in artists)
+            try
             {
-                this._artistRepository.Create(artist);
+                this._artistRepository.Create(artists);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new Error(e.Message));
             }
 
             return Accepted();
         }
 
-        // PUT api/values/5
+        /// <summary>
+        /// Updates an artist.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="artist"></param>
         [HttpPut("{id}")]
         public void Put(long id, [FromBody]Artist artist)
         {
