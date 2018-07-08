@@ -31,7 +31,7 @@ namespace Rockstars.DataAccess.Repositories
             this._artistContext.SaveChanges();
         }
 
-        public Artist Get(long id)
+        public Artist Get(int id)
         {
             var item = this._artistContext.Artists.Find(id);
             return item;
@@ -54,6 +54,19 @@ namespace Rockstars.DataAccess.Repositories
         {
             var entities = this._artistContext.Artists.Where(query);
             return entities;
+        }
+
+        public void Delete(int id)
+        {
+            var artist = this.Get(id);
+            if (artist == null)
+            {
+                return;
+            }
+
+            this._artistContext.Artists.Attach(artist);
+            this._artistContext.Artists.Remove(artist);
+            this._artistContext.SaveChanges();
         }
     }
 }

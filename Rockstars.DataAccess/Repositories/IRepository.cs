@@ -23,7 +23,7 @@ namespace Rockstars.DataAccess.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T Get(long id);
+        T Get(int id);
 
         /// <summary>
         /// Get all entities.
@@ -43,5 +43,11 @@ namespace Rockstars.DataAccess.Repositories
         /// <param name="query"></param>
         /// <returns></returns>
         IEnumerable<T> Search(Func<Artist, bool> query);
+
+        /// <summary>
+        /// Delete the entity.
+        /// </summary>
+        /// <param name="id"></param>
+        void Delete(int id);
     }
 }

@@ -52,7 +52,7 @@ namespace Rockstars.WebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ActionResult Get(long id)
+        public ActionResult Get(int id)
         {
             var artist = this._artistRepository.Get(id);
             if (artist == null)
@@ -111,6 +111,16 @@ namespace Rockstars.WebAPI.Controllers
         public void Put(long id, [FromBody]Artist artist)
         {
             this._artistRepository.Update(artist);
+        }
+
+        /// <summary>
+        /// Deletes the artist.
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            this._artistRepository.Delete(id);
         }
     }
 }
