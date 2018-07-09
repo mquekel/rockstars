@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rockstars.DataAccess.DatabaseContext;
 using Rockstars.DataAccess.Repositories;
+using Rockstars.DataAccess.Services;
 using Rockstars.Domain.Entities;
 using Rockstars.WebAPI.Filters;
 using Swashbuckle.AspNetCore.Swagger;
@@ -26,23 +27,34 @@ namespace Rockstars.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["RockstarDbConnection"];
-            services.AddDbContext<ArtistContext>(opt =>
-                opt.UseSqlServer(connection));
+            RegisterDataBase(services);
 
             services.AddScoped(typeof(IRepository<Artist>), typeof(ArtistRepository));
+            services.AddScoped(typeof(IRepository<Song>), typeof(SongRepository));
+            services.AddScoped(typeof(ISongSearchService), typeof(SongSearchService));
 
             services.AddMvc();
 
+            AddDocumentation(services);
+        }
+
+        private static void AddDocumentation(IServiceCollection services)
+        {
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new Info { Title = "Rockstarts API", Version = "v1" });
+                config.SwaggerDoc("v1", new Info {Title = "Rockstarts API", Version = "v1"});
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 config.IncludeXmlComments(xmlPath);
                 config.OperationFilter<AddFileParamTypesOperationFilter>();
             });
+        }
+
+        private void RegisterDataBase(IServiceCollection services)
+        {
+            var connection = Configuration["RockstarDbConnection"];
+            services.AddDbContext<RockstarsDb>(opt => opt.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

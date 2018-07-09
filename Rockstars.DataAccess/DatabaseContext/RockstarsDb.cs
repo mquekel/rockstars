@@ -3,13 +3,15 @@ using Rockstars.Domain.Entities;
 
 namespace Rockstars.DataAccess.DatabaseContext
 {
-    public class ArtistContext : DbContext
+    public class RockstarsDb : DbContext
     {
-        public ArtistContext(DbContextOptions options)
+        public RockstarsDb(DbContextOptions options)
             : base(options)
         {
         }
 
         public DbSet<Artist> Artists { get; set; }
+
+        public DbSet<Song> Songs { get; set; }
     }
 }

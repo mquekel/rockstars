@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rockstars.Domain.Entities;
 
 namespace Rockstars.DataAccess.Repositories
 {
@@ -42,7 +41,7 @@ namespace Rockstars.DataAccess.Repositories
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        IEnumerable<T> Search(Func<Artist, bool> query);
+        IEnumerable<T> Search(Func<T, bool> query);
 
         /// <summary>
         /// Delete the entity.

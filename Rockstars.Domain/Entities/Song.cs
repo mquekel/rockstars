@@ -12,9 +12,9 @@
 
         public string Shortname { get; set; }
 
-        public long Bpm { get; set; }
+        public int? Bpm { get; set; }
 
-        public long Duration { get; set; }
+        public int Duration { get; set; }
 
         public string Genre { get; set; }
 

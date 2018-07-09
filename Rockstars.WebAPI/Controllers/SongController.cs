@@ -4,77 +4,80 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Rockstars.DataAccess.Exceptions;
 using Rockstars.DataAccess.Repositories;
+using Rockstars.DataAccess.Services;
 using Rockstars.Domain.Entities;
 using Rockstars.WebAPI.ViewModels;
 
 namespace Rockstars.WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class ArtistController : Controller
+    public class SongController : Controller
     {
-        private readonly IRepository<Artist> _artistRepository;
+        private readonly IRepository<Song> _songRepository;
 
-        public ArtistController(IRepository<Artist> artistRepository)
+        private readonly ISongSearchService _songSearchService;
+
+        public SongController(IRepository<Song> songRepository, ISongSearchService songSearchService)
         {
-            this._artistRepository = artistRepository;
+            _songSearchService = songSearchService;
+            _songRepository = songRepository;
         }
 
         /// <summary>
-        /// Get all artists.
+        /// Get all songs.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Artist> GetAll()
+        public IEnumerable<Song> GetAll()
         {
-            return this._artistRepository.GetAll();
+            return this._songRepository.GetAll();
         }
 
         /// <summary>
-        /// Search for an artist by name.
+        /// Search for an song by genre.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="genre"></param>
         /// <returns></returns>
         [HttpPost("Search")]
-        public ActionResult Search(string name)
+        public ActionResult Search(string genre)
         {
-            var artists = this._artistRepository.Search(q => string.Equals(q.Name, name, StringComparison.OrdinalIgnoreCase));
-            var artist = artists.FirstOrDefault();
-            if (artist == null)
+            var songs = this._songSearchService.SearchByGenre(genre);
+            if (!songs.Any())
             {
-                return NotFound(new Error("artist not found."));
+                return NotFound(new Error("song not found."));
             }
 
-            return Json(artist);
+            return Json(songs);
         }
 
         /// <summary>
-        /// Gets the artist by ID.
+        /// Gets the song by ID.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var artist = this._artistRepository.Get(id);
-            if (artist == null)
+            var song = this._songRepository.Get(id);
+            if (song == null)
             {
                 return NotFound();
             }
 
-            return Json(artist);
+            return Json(song);
         }
 
         /// <summary>
-        /// Add an artist to the database.
+        /// Add an song to the database.
         /// </summary>
-        /// <param name="artist"></param>
+        /// <param name="song"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Add([FromBody] Artist artist)
+        public IActionResult Add([FromBody] Song song)
         {
             try
             {
-                this._artistRepository.Create(artist);
+                this._songRepository.Create(song);
             }
             catch (EntityAlreadyExistsException e)
             {
@@ -84,16 +87,16 @@ namespace Rockstars.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Add an array of artists to the database.
+        /// Add an array of songs to the database.
         /// </summary>
-        /// <param name="artists"></param>
+        /// <param name="songs"></param>
         /// <returns></returns>
         [HttpPost("AddMultiple")]
-        public IActionResult AddMultiple([FromBody] IEnumerable<Artist> artists)
+        public IActionResult AddMultiple([FromBody] IEnumerable<Song> songs)
         {
             try
             {
-                this._artistRepository.Create(artists);
+                this._songRepository.Create(songs);
             }
             catch (Exception e)
             {
@@ -104,24 +107,24 @@ namespace Rockstars.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Updates an artist.
+        /// Updates an song.
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="artist"></param>
+        /// <param name="song"></param>
         [HttpPut("{id}")]
-        public void Put(long id, [FromBody]Artist artist)
+        public void Put(long id, [FromBody]Song song)
         {
-            this._artistRepository.Update(artist);
+            this._songRepository.Update(song);
         }
 
         /// <summary>
-        /// Deletes the artist.
+        /// Deletes the song.
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            this._artistRepository.Delete(id);
+            this._songRepository.Delete(id);
         }
     }
 }

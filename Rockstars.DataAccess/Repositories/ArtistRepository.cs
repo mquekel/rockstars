@@ -9,11 +9,11 @@ namespace Rockstars.DataAccess.Repositories
 {
     public class ArtistRepository : IRepository<Artist>
     {
-        private readonly ArtistContext _artistContext;
+        private readonly RockstarsDb _rockstarsDb;
 
-        public ArtistRepository(ArtistContext artistContext)
+        public ArtistRepository(RockstarsDb rockstarsDb)
         {
-            _artistContext = artistContext;
+            _rockstarsDb = rockstarsDb;
         }
 
         public void Create(Artist entity)
@@ -23,8 +23,8 @@ namespace Rockstars.DataAccess.Repositories
                 throw new EntityAlreadyExistsException("The artist is already present.");
             }
 
-            this._artistContext.Artists.Add(entity);
-            this._artistContext.SaveChanges();
+            this._rockstarsDb.Artists.Add(entity);
+            this._rockstarsDb.SaveChanges();
         }
 
         private bool ArtistAlreadyExists(Artist entity)
@@ -40,34 +40,34 @@ namespace Rockstars.DataAccess.Repositories
                 {
                     throw new EntityAlreadyExistsException($"The band with name {entity.Name} already exists.");
                 }
-                this._artistContext.Artists.Add(entity);
+                this._rockstarsDb.Artists.Add(entity);
             }
 
-            this._artistContext.SaveChanges();
+            this._rockstarsDb.SaveChanges();
         }
 
         public Artist Get(int id)
         {
-            var item = this._artistContext.Artists.Find(id);
+            var item = this._rockstarsDb.Artists.Find(id);
             return item;
         }
 
         public IEnumerable<Artist> GetAll()
         {
-            return this._artistContext.Artists.ToList();
+            return this._rockstarsDb.Artists.ToList();
         }
 
         public void Update(Artist artist)
         {
-            var item = this._artistContext.Artists.Find(artist.Id);
+            var item = this._rockstarsDb.Artists.Find(artist.Id);
             item.Name = artist.Name;
-            this._artistContext.Artists.Update(item);
-            this._artistContext.SaveChanges();
+            this._rockstarsDb.Artists.Update(item);
+            this._rockstarsDb.SaveChanges();
         }
 
         public IEnumerable<Artist> Search(Func<Artist, bool> query)
         {
-            var entities = this._artistContext.Artists.Where(query);
+            var entities = this._rockstarsDb.Artists.Where(query);
             return entities;
         }
 
@@ -79,9 +79,9 @@ namespace Rockstars.DataAccess.Repositories
                 return;
             }
 
-            this._artistContext.Artists.Attach(artist);
-            this._artistContext.Artists.Remove(artist);
-            this._artistContext.SaveChanges();
+            this._rockstarsDb.Artists.Attach(artist);
+            this._rockstarsDb.Artists.Remove(artist);
+            this._rockstarsDb.SaveChanges();
         }
     }
 }
