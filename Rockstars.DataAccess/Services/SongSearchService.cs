@@ -21,6 +21,7 @@ namespace Rockstars.DataAccess.Services
 
         public IEnumerable<Song> SearchByArtist(string artist)
         {
+            //@todo: should probably add some caching here for performance.
             var songs = this._songRepository.Search(q => q.Artist.ToLower().Contains(artist.ToLower()));
             return songs;
         }

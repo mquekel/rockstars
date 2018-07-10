@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Rockstars.DataAccess.Exceptions;
+using Rockstars.DataAccess.Models;
 using Rockstars.DataAccess.Repositories;
+using Rockstars.DataAccess.Services.Import;
 using Rockstars.Domain.Entities;
 using Rockstars.WebAPI.ViewModels;
 
@@ -14,9 +15,12 @@ namespace Rockstars.WebAPI.Controllers
     {
         private readonly IRepository<Artist> _artistRepository;
 
-        public ArtistController(IRepository<Artist> artistRepository)
+        private readonly IArtistImportService _artistImportService;
+
+        public ArtistController(IRepository<Artist> artistRepository, IArtistImportService artistImportService)
         {
-            this._artistRepository = artistRepository;
+            _artistImportService = artistImportService;
+            _artistRepository = artistRepository;
         }
 
         /// <summary>
@@ -72,15 +76,8 @@ namespace Rockstars.WebAPI.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] Artist artist)
         {
-            try
-            {
-                this._artistRepository.Create(artist);
-            }
-            catch (EntityAlreadyExistsException e)
-            {
-                return BadRequest(new Error(e.Message));
-            }
-            return Accepted();
+            var validationResults = this._artistImportService.Import(new[] { artist });
+            return Json(validationResults.Where(result => result.Status == ValidationStatus.Failed));
         }
 
         /// <summary>
@@ -91,16 +88,17 @@ namespace Rockstars.WebAPI.Controllers
         [HttpPost("AddMultiple")]
         public IActionResult AddMultiple([FromBody] IEnumerable<Artist> artists)
         {
+            List<ValidationResult> validationResults;
             try
             {
-                this._artistRepository.Create(artists);
+                validationResults = this._artistImportService.Import(artists);
             }
             catch (Exception e)
             {
                 return BadRequest(new Error(e.Message));
             }
 
-            return Accepted();
+            return Json(validationResults.Where(result => result.Status == ValidationStatus.Failed));
         }
 
         /// <summary>

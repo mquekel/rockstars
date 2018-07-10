@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Rockstars.DataAccess.Exceptions;
 using Rockstars.DataAccess.Repositories;
 using Rockstars.DataAccess.Services;
 using Rockstars.Domain.Entities;
@@ -75,14 +74,7 @@ namespace Rockstars.WebAPI.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] Song song)
         {
-            try
-            {
-                this._songRepository.Create(song);
-            }
-            catch (EntityAlreadyExistsException e)
-            {
-                return BadRequest(new Error(e.Message));
-            }
+            this._songRepository.Create(song);
             return Accepted();
         }
 

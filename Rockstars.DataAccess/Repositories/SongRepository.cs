@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Caching.Memory;
 using Rockstars.DataAccess.DatabaseContext;
-using Rockstars.DataAccess.Exceptions;
 using Rockstars.Domain.Entities;
 
 namespace Rockstars.DataAccess.Repositories
 {
     public class SongRepository : IRepository<Song>
     {
+        private const int CacheExpiryTime = 1;
+
         private readonly RockstarsDb _rockstarsDb;
 
-        public SongRepository(RockstarsDb rockstarsDb)
+        private readonly IMemoryCache _cachingService;
+
+        public SongRepository(RockstarsDb rockstarsDb, IMemoryCache cachingService)
         {
+            _cachingService = cachingService;
             _rockstarsDb = rockstarsDb;
         }
 
         public void Create(Song entity)
         {
-            if (SongAlreadyExists(entity))
-            {
-                throw new EntityAlreadyExistsException("The Song is already present.");
-            }
-
             this._rockstarsDb.Songs.Add(entity);
             this._rockstarsDb.SaveChanges();
         }
@@ -36,10 +36,6 @@ namespace Rockstars.DataAccess.Repositories
         {
             foreach (var entity in entities)
             {
-                if (this.SongAlreadyExists(entity))
-                {
-                    throw new EntityAlreadyExistsException($"The song with name {entity.Name} already exists.");
-                }
                 this._rockstarsDb.Songs.Add(entity);
             }
 
@@ -54,7 +50,12 @@ namespace Rockstars.DataAccess.Repositories
 
         public IEnumerable<Song> GetAll()
         {
-            return this._rockstarsDb.Songs.ToList();
+            var allSongs = this._cachingService.GetOrCreate("all-songs", entry =>
+            {
+                entry.SlidingExpiration = TimeSpan.FromSeconds(CacheExpiryTime);
+                return this._rockstarsDb.Songs.ToList();
+            });
+            return allSongs;
         }
 
         public void Update(Song song)
@@ -67,7 +68,7 @@ namespace Rockstars.DataAccess.Repositories
 
         public IEnumerable<Song> Search(Func<Song, bool> query)
         {
-            var entities = this._rockstarsDb.Songs.Where(query);
+            var entities = this.GetAll().Where(query);
             return entities;
         }
 

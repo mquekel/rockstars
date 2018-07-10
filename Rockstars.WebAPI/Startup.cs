@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Rockstars.DataAccess.DatabaseContext;
 using Rockstars.DataAccess.Repositories;
 using Rockstars.DataAccess.Services;
+using Rockstars.DataAccess.Services.Import;
 using Rockstars.Domain.Entities;
 using Rockstars.WebAPI.Filters;
 using Swashbuckle.AspNetCore.Swagger;
@@ -32,6 +33,13 @@ namespace Rockstars.WebAPI
             services.AddScoped(typeof(IRepository<Artist>), typeof(ArtistRepository));
             services.AddScoped(typeof(IRepository<Song>), typeof(SongRepository));
             services.AddScoped(typeof(ISongSearchService), typeof(SongSearchService));
+            services.AddScoped(typeof(IArtistImportService), typeof(ArtistImportService));
+
+            services.AddScoped(typeof(IImportValidationRule<Artist>), typeof(ArtistGenreRule));
+            services.AddScoped(typeof(IImportValidationRule<Artist>), typeof(ArtistAlreadyExistRule));
+            services.AddScoped(typeof(IImportValidationRule<Artist>), typeof(ArtistYearRule));
+
+            services.AddMemoryCache();
 
             services.AddMvc();
 
